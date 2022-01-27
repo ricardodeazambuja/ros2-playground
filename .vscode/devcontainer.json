@@ -1,4 +1,14 @@
 {
     "remoteUser" : "ros2user",
-    "userEnvProbe": "loginInteractiveShell"
+    "userEnvProbe": "loginInteractiveShell",        
+    "extensions": [
+        "ms-vscode.cpptools",
+        "ms-vscode.cpptools-extension-pack",
+        "ms-python.vscode-pylance",
+        "ms-python.python",
+        "eamodio.gitlens",
+        "redhat.vscode-yaml",
+        "smilerobotics.urdf",
+        "ms-vscode.cmake-tools"
+    ]
 }
