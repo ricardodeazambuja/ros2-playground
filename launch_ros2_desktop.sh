@@ -8,7 +8,7 @@ Launch a new docker ROS2 container.
     -h,  --help            display this help and exit
     -r,  --ros_domain_id   domain ID used with ROS2 (default: 0)
     -i,  --image           docker image to use (default: ricardodeazambuja/ros2-galactic-desktop:latest)
-    -n,  --name            container's name and hostname (default: ros2galactic-<random 10 chars>)
+    -n,  --name            container's name and hostname (default: ros2-<random 10 chars>)
     -l,  --local           sets it to use --network=host
     -v,  --video           device number you want to access from the host (default: 0)
     -na, --no_net-admin    disable the use of --cap-add=NET_ADMIN
@@ -23,7 +23,7 @@ EOF
 # from https://unix.stackexchange.com/a/331530
 ROS_DOMAIN_ID=0
 IMAGE=ricardodeazambuja/ros2-galactic-desktop:latest
-NAME=ros2galactic-$(echo $RANDOM | md5sum | head -c 10)
+NAME=ros2-$(echo $RANDOM | md5sum | head -c 10)
 CMD=bash
 NET="--hostname=$NAME"
 VIDEO=0

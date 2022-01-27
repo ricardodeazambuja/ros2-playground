@@ -1,5 +1,8 @@
-# FROM osrf/ros:galactic-desktop
-FROM osrf/ros@sha256:97c07f6b3c8bd0cd2b9dd68baac3a9f790a90dd51b4d21f7a6d0766083f3d583
+ARG ROS_DISTRO='galactic'
+FROM osrf/ros:$ROS_DISTRO-desktop
+
+# ROS2 Galactic
+# FROM osrf/ros@sha256:97c07f6b3c8bd0cd2b9dd68baac3a9f790a90dd51b4d21f7a6d0766083f3d583
 # To find the hash: $ docker images --digests
 
 
@@ -47,12 +50,12 @@ RUN python3 -m pip install --upgrade pip
 
 RUN echo "shopt -s histappend" >> /home/ros2user/.bashrc
 RUN echo "PROMPT_COMMAND='history -a;history -n'" >> /home/ros2user/.bashrc
-# The two lines above are used with the launch_ros2_galactic_desktop.sh so
+# The two lines above are used with the launch_ros_desktop.sh so
 # we have access to the .bash_history from the host.
 
-RUN echo "source /opt/ros/galactic/setup.bash" >> /etc/.bashrc
-RUN echo "source /opt/ros/galactic/setup.bash" >> /root/.bashrc
-RUN echo "source /opt/ros/galactic/setup.bash" >> /home/ros2user/.bashrc
+RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> /etc/.bashrc
+RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> /root/.bashrc
+RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> /home/ros2user/.bashrc
 # It's necessary to add to .bashrc if you want to start the container with bash
 # and have the auto completion working for ros2 stuff out of the box...
 
@@ -63,7 +66,7 @@ ENV TERM xterm-256color
 COPY avahi-daemon.conf /etc/avahi/avahi-daemon.conf
 COPY ros_entrypoint.sh /ros_entrypoint.sh
 
-ENV ROS_DISTRO 'galactic'
+ENV ROS_DISTRO $ROS_DISTRO
 ENTRYPOINT ["/ros_entrypoint.sh"] # this is already defined in the base image...
 
 CMD ["bash"]
