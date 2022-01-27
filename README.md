@@ -29,7 +29,7 @@ This script automatically creates random container names (i.e. `ros2-<random 10 
 access through `ros2-<random 10 chars>.local` as well depending on the arguments you passed to the script.
 Use `launch_ros2_desktop.sh --help` to check the options:
 ```
-Usage: launch_ros2_galactic_desktop.sh [OPTIONS]
+Usage: launch_ros2_desktop.sh [OPTIONS]
 Launch a new docker ROS2 container.
     -h,  --help            display this help and exit
     -r,  --ros_domain_id   domain ID used with ROS2 (default: 0)
