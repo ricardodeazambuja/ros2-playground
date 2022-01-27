@@ -7,13 +7,15 @@ Usage: ${0##*/} [OPTIONS]
 Launch a new docker ROS2 container.
     -h,  --help            display this help and exit
     -r,  --ros_domain_id   domain ID used with ROS2 (default: 0)
+    -lo, --dds_local       set the env variable ROS_LOCALHOST_ONLY=1 to avoid cross talking between machines
+    -e,  --env_var         allow to set an env variable (e.g. "MY_ENV1=some value")
     -i,  --image           docker image to use (default: ricardodeazambuja/ros2-galactic-desktop:latest)
     -n,  --name            container's name and hostname (default: ros2-<random 10 chars>)
     -l,  --local           sets it to use --network=host
     -v,  --video           device number you want to access from the host (default: 0)
     -na, --no_net-admin    disable the use of --cap-add=NET_ADMIN
     -nn, --no-nvidia       disable the use of NVIDIA Docker stuff
-    -d,  --hard-dri        direct access to hardware (useful for Intel Graphics) --device=/dev/dri:/dev/dri
+    -dr, --hard-dri        direct access to hardware (useful for Intel Graphics) --device=/dev/dri:/dev/dri
     -g,  --gdb             enable debugging using gdb
     -t,  --local_time      use host timezone
     -c,  --cmd             command to execute inside the container (default: bash)
@@ -32,12 +34,18 @@ NGPU="--gpus all --env=NVIDIA_VISIBLE_DEVICES=all --env=NVIDIA_DRIVER_CAPABILITI
 DRI=
 GDB=
 LTIME=
+EXT_ENV=
+LHO="--env=ROS_LOCALHOST_ONLY=0"
 while :; do
     case $1 in
         -h|--help) show_help
         exit 0
         ;;
         -r|--ros_domain_id) ROS_DOMAIN_ID=$2
+        ;;
+        -lo|--dds_local) LHO="--env=ROS_LOCALHOST_ONLY=1"
+        ;;
+        -e|--env_var) tmpfile=$(mktemp); echo -e $2 > $tmpfile; EXT_ENV="--env-file=$tmpfile"
         ;;
         -i|--image) IMAGE=$2
         ;;
@@ -55,7 +63,7 @@ while :; do
         ;;
         -nn|--no-nvidia) NGPU=""
         ;;
-        -d|--hard-dri) DRI="--device=/dev/dri:/dev/dri"
+        -dr|--hard-dri) DRI="--device=/dev/dri:/dev/dri"
         ;;
         -g|--gdb) GDB="--cap-add=SYS_PTRACE --security-opt=seccomp=unconfined"
         ;;
@@ -80,7 +88,7 @@ echo "inside the container at /home/ros2user/host."
 echo "Therefore, remember that when you decide to use something like \"rm -rf *\" ;)"
 echo 
 
-docker run --rm -it $NET $CAP $NGPU $DRI $GDB $LTIME\
+docker run --rm -it $NET $CAP $NGPU $DRI $GDB $LTIME $LHO $EXT_ENV \
              --name $NAME \
              --user $(id -u):$(id -g) \
              --volume $(pwd):/home/ros2user/host \
