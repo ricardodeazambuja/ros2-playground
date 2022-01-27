@@ -1,0 +1,4 @@
+{
+    "remoteUser" : "ros2user",
+    "userEnvProbe": "loginInteractiveShell"
+}
