@@ -26,6 +26,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   avahi-daemon \
   libnss-mdns \
   python3-pip \
+  libopencv-dev \
   python3-opencv \
   iproute2 \
   ros-galactic-plotjuggler-ros \
