@@ -60,4 +60,5 @@ $ docker exec -t ros2galactic-8589d9bd2d bash -i -c "ros2 topic list"
 
 Finally, you don't need to remember the IP address of that container as it will be accessible using `ros2galactic-8589d9bd2d.local`.
 
-
+## VSCode
+If you are using VSCode, you can take advantage of its `Remote - Containers` extension and attach VSCode to a running container (https://code.visualstudio.com/docs/remote/attach-container). However, by default, it will not have the extensions, but you can simply open the Extensions tab and click/install the ones you need or you can change the global settings to install some by default (https://code.visualstudio.com/docs/remote/containers#_always-installed-extensions).
