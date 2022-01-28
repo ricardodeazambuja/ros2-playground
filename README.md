@@ -32,14 +32,17 @@ Use `launch_ros2_desktop.sh --help` to check the options:
 Usage: launch_ros2_desktop.sh [OPTIONS]
 Launch a new docker ROS2 container.
     -h,  --help            display this help and exit
+    -d,  --host_dir        directory to be mounted inside ~/host (default: $(pwd))
     -r,  --ros_domain_id   domain ID used with ROS2 (default: 0)
+    -lo, --dds_local       set the env variable ROS_LOCALHOST_ONLY=1 to avoid cross talking between machines
+    -e,  --env_var         allow to set env variables (e.g. "MY_ENV1=some value\nMY_ENV2=2")
     -i,  --image           docker image to use (default: ricardodeazambuja/ros2-galactic-desktop:latest)
     -n,  --name            container's name and hostname (default: ros2-<random 10 chars>)
     -l,  --local           sets it to use --network=host
     -v,  --video           device number you want to access from the host (default: 0)
     -na, --no_net-admin    disable the use of --cap-add=NET_ADMIN
     -nn, --no-nvidia       disable the use of NVIDIA Docker stuff
-    -d,  --hard-dri        direct access to hardware (useful for Intel Graphics) --device=/dev/dri:/dev/dri
+    -dr, --hard-dri        direct access to hardware (useful for Intel Graphics) --device=/dev/dri:/dev/dri
     -g,  --gdb             enable debugging using gdb
     -t,  --local_time      use host timezone
     -c,  --cmd             command to execute inside the container (default: bash)
@@ -65,4 +68,9 @@ $ docker exec -t ros2-8589d9bd2d bash -i -c "ros2 run plotjuggler plotjuggler"
 Finally, you don't need to remember the IP address for that container as it will be accessible using `ros2-8589d9bd2d.local`.
 
 ## VSCode
-If you are using VSCode, you can take advantage of its `Remote - Containers` extension and attach VSCode to a running container (https://code.visualstudio.com/docs/remote/attach-container). However, by default, it will not have the extensions, but you can simply open the Extensions tab and click/install the ones you need or you can change the global settings to install some by default (https://code.visualstudio.com/docs/remote/containers#_always-installed-extensions). If you clone this repo into your ROS2 workspace, the directory `.vscode` already has the settings needed to make it work with the containers created using this repo.
+If you are using VSCode, you can take advantage of its `Remote - Containers` extension and attach VSCode to a running container (https://code.visualstudio.com/docs/remote/attach-container). However, by default, it will not have the extensions, but you can simply open the Extensions tab and click/install the ones you need or you can change the global settings to install some by default (https://code.visualstudio.com/docs/remote/containers#_always-installed-extensions). If you clone this repo into your ROS2 workspace, the directory `.vscode` already has the settings needed to make it work with the containers created using this repo.  
+
+By default the system will look for `install/setup.bash` inside the host directory and source if available. 
+It will also search for python packages and add them to PYTHONPATH. These steps are to allow IntelliSense to see all packages inside the workspace.
+
+That's it, VSCode will use the `/home/ros2user/host` as its workspace dir and it may take a little while to get ready with extensions and IntelliSense stuff because I added a bunch of paths to search for libraries.

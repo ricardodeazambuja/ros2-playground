@@ -10,5 +10,8 @@
         "redhat.vscode-yaml",
         "smilerobotics.urdf",
         "ms-vscode.cmake-tools"
-    ]
+    ],
+    "settings" :{
+        "python.defaultInterpreterPath": "/usr/bin/python3"
+        }
 }

@@ -19,6 +19,7 @@ Launch a new docker ROS2 container.
     -dr, --hard-dri        direct access to hardware (useful for Intel Graphics) --device=/dev/dri:/dev/dri
     -g,  --gdb             enable debugging using gdb
     -t,  --local_time      use host timezone
+    -ds, --dont_source     do not source install/setup.bash and add python stuff to path from the host dir
     -c,  --cmd             command to execute inside the container (default: bash)
 EOF
 }
@@ -38,6 +39,7 @@ LTIME=
 EXT_ENV=
 LHO="--env=ROS_LOCALHOST_ONLY=0"
 HOST_DIR=$(pwd)
+SOURCE_HOST="--env=SOURCE_HOST=1"
 while :; do
     case $1 in
         -h|--help) show_help
@@ -73,16 +75,18 @@ while :; do
         ;;
         -t|--local_time) LTIME="--volume /etc/localtime:/etc/localtime:ro"
         ;;
+        -ds|--dont_source) SOURCE_HOST=""
+        ;;
         *) break
     esac
     shift
 done
 
-if [ -z "$USING_HOST" ]; 
-    then 
-        echo "This is the container's name and hostname: $NAME"; 
-    else
+if [ "$USING_HOST" = "1" ]; then 
         echo "This is the container's name as $NAME and the host network"; 
+    else
+        echo "This is the container's name and hostname: $NAME"; 
+        
 fi
 
 echo "Using a ROS_DOMAIN_ID=$ROS_DOMAIN_ID"
@@ -92,7 +96,7 @@ echo "inside the container at /home/ros2user/host."
 echo "Therefore, remember that when you decide to use something like \"rm -rf *\" ;)"
 echo 
 
-docker run --rm -it $NET $CAP $NGPU $DRI $GDB $LTIME $LHO $EXT_ENV \
+docker run --rm -it $NET $CAP $NGPU $DRI $GDB $LTIME $LHO $EXT_ENV $SOURCE_HOST\
              --name $NAME \
              --user $(id -u):$(id -g) \
              --volume $HOST_DIR:/home/ros2user/host \

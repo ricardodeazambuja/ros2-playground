@@ -1,6 +1,6 @@
 {
     "configurations": [
-        {
+        {   "name": "ros2container",
             "includePath": [
                 "${workspaceFolder}/**",
                 "/opt/**",
