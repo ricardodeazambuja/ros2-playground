@@ -45,6 +45,7 @@ Launch a new docker ROS2 container.
     -dr, --hard-dri        direct access to hardware (useful for Intel Graphics) --device=/dev/dri:/dev/dri
     -g,  --gdb             enable debugging using gdb
     -t,  --local_time      use host timezone
+    -ds, --dont_source     do not source install/setup.bash and add python stuff to path from the host dir
     -c,  --cmd             command to execute inside the container (default: bash)
 
 ```
