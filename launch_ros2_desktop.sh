@@ -42,41 +42,108 @@ HOST_DIR=$(pwd)
 SOURCE_HOST="--env=SOURCE_HOST=1"
 while :; do
     case $1 in
-        -h|--help) show_help
-        exit 0
+        -h|-\?|--help) 
+            show_help
+            exit
         ;;
-        -r|--ros_domain_id) ROS_DOMAIN_ID=$2
+        -r|--ros_domain_id) 
+            if [ "$2" ]; then
+                ROS_DOMAIN_ID=$2
+                shift
+            else
+                echo "ERROR: $1 requires a non-empty option argument."
+                exit 1
+            fi
         ;;
-        -d|--host_dir) HOST_DIR=$(cd $2; pwd)
+        -d|--host_dir)
+            if [ "$2" ]; then
+                HOST_DIR=$(cd $2; pwd)
+                shift
+            else
+                echo "ERROR: $1 requires a non-empty option argument."
+                exit 1
+            fi
         ;;
-        -lo|--dds_local) LHO="--env=ROS_LOCALHOST_ONLY=1"
+        -lo|--dds_local) 
+            LHO="--env=ROS_LOCALHOST_ONLY=1"
         ;;
-        -e|--env_var) tmpfile=$(mktemp); echo -e $2 > $tmpfile; EXT_ENV="--env-file=$tmpfile"
+        -e|--env_var)
+            if [ "$2" ]; then
+                tmpfile=$(mktemp)
+                echo -e $2 > $tmpfile
+                EXT_ENV="--env-file=$tmpfile"
+                shift
+            else
+                echo "ERROR: $1 requires a non-empty option argument."
+                exit 1
+            fi
         ;;
-        -i|--image) IMAGE=$2
+        -i|--image)
+            if [ "$2" ]; then
+                IMAGE=$2
+                shift
+            else
+                echo "ERROR: $1 requires a non-empty option argument."
+                exit 1
+            fi
         ;;
-        -n|--name) NAME=$2
-        NET="--hostname=$NAME"
+        -n|--name)
+            if [ "$2" ]; then
+                NAME=$2
+                NET="--hostname=$NAME"
+                shift
+            else
+                echo "ERROR: $1 requires a non-empty option argument."
+                exit 1
+            fi
         ;;
-        -c|--cmd) CMD=$2
+        -c|--cmd) 
+            if [ "$2" ]; then
+                CMD=$2
+                shift
+            else
+                echo "ERROR: $1 requires a non-empty option argument."
+                exit 1
+            fi
         ;;
-        -l|--local) NET="--network=host"
-        USING_HOST=1
+        -l|--local) 
+            NET="--network=host"
+            USING_HOST=1
         ;;
-        -v|--video) VIDEO=$2
+        -v|--video)
+            if [ "$2" ]; then
+                VIDEO=$2
+                shift
+            else
+                echo "ERROR: $1 requires a non-empty option argument."
+                exit 1
+            fi
         ;;
-        -na|--no_net-admin) CAP=""
+        -na|--no_net-admin) 
+            CAP=""
         ;;
-        -nn|--no-nvidia) NGPU=""
+        -nn|--no-nvidia) 
+            NGPU=""
         ;;
-        -dr|--hard-dri) DRI="--device=/dev/dri:/dev/dri"
+        -dr|--hard-dri) 
+            DRI="--device=/dev/dri:/dev/dri"
         ;;
-        -g|--gdb) GDB="--cap-add=SYS_PTRACE --security-opt=seccomp=unconfined"
+        -g|--gdb) 
+            GDB="--cap-add=SYS_PTRACE --security-opt=seccomp=unconfined"
         ;;
-        -t|--local_time) LTIME="--volume /etc/localtime:/etc/localtime:ro"
+        -t|--local_time) 
+            LTIME="--volume /etc/localtime:/etc/localtime:ro"
         ;;
-        -ds|--dont_source) SOURCE_HOST=""
+        -ds|--dont_source) 
+            SOURCE_HOST=""
         ;;
+        --) # End of all options.
+            shift
+            break
+            ;;
+        -?*)
+            printf 'WARN: Unknown option (ignored): %s\n' "$1" >&2
+            ;;
         *) break
     esac
     shift
@@ -89,9 +156,10 @@ if [ "$USING_HOST" = "1" ]; then
         
 fi
 
+echo "Docker image: $IMAGE"
 echo "Using a ROS_DOMAIN_ID=$ROS_DOMAIN_ID"
 echo 
-echo "This script mounted the directory ($HOST_DIR)" 
+echo "This script will mount the directory ($HOST_DIR)" 
 echo "inside the container at /home/ros2user/host."
 echo "Therefore, remember that when you decide to use something like \"rm -rf *\" ;)"
 echo 
