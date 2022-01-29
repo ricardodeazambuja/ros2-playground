@@ -69,9 +69,24 @@ $ docker exec -t ros2-8589d9bd2d bash -i -c "ros2 run plotjuggler plotjuggler"
 Finally, you don't need to remember the IP address for that container as it will be accessible using `ros2-8589d9bd2d.local`.
 
 ## VSCode
-If you are using VSCode, you can take advantage of its `Remote - Containers` extension and attach VSCode to a running container (https://code.visualstudio.com/docs/remote/attach-container). However, by default, it will not have the extensions, but you can simply open the Extensions tab and click/install the ones you need or you can change the global settings to install some by default (https://code.visualstudio.com/docs/remote/containers#_always-installed-extensions). If you clone this repo into your ROS2 workspace, the directory `.vscode` already has the settings needed to make it work with the containers created using this repo.  
+If you are using VSCode, you can take advantage of its `Remote - Containers` extension and attach VSCode to a running container (https://code.visualstudio.com/docs/remote/attach-container). However, by default, it will not have the extensions, but you can simply open the Extensions tab and click/install the ones you need or you can change the global settings to install some by default (https://code.visualstudio.com/docs/remote/containers#_always-installed-extensions).
 
-By default the system will look for `install/setup.bash` inside the host directory and source if available. 
-It will also search for python packages and add them to PYTHONPATH. These steps are to allow IntelliSense to see all packages inside the workspace.
 
-That's it, VSCode will use the `/home/ros2user/host` as its workspace dir and it may take a little while to get ready with extensions and IntelliSense stuff because I added a bunch of paths to search for libraries.
+By default the container will look for `install/setup.bash` inside the host directory and source if available. 
+It will also search for python packages and add them to PYTHONPATH. These steps are to allow IntelliSense to see all packages inside the workspace. 
+You can disable this behaviour using `--dont_source`.
+
+
+[VSCode will save the configurations for each image inside this directory](https://code.visualstudio.com/docs/remote/attach-container#_attached-container-configuration-files):
+
+`~/.config/Code/User/globalStorage/ms-vscode-remote.remote-containers/imageConfigs`
+
+The filename is exactly what you type for the image with `/` and `:` replaced with URL encoding. E.g: 
+
+`ricardodeazambuja%2fros2-galactic-desktop%3alatest.json`
+
+The funny thing is that if I manually change the file it always undo it. Probably there's another place with this information...
+
+You still need to have the directory `.vscode` inside the place you will use VSCode, and make adjustments to `c_cpp_properties.json`, if you are using C++.
+
+It may be easier to use a VSCode workspace template, [like this one](https://github.com/athackst/vscode_ros2_workspace), and start the container from VSCode instead of attaching to a running container.
