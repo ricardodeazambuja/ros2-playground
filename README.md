@@ -87,6 +87,6 @@ The filename is exactly what you type for the image with `/` and `:` replaced wi
 
 The funny thing is that if I manually change the file it always undo it. Probably there's another place with this information...
 
-You still need to have the directory `.vscode` inside the place you will use VSCode, and make adjustments to `c_cpp_properties.json`, if you are using C++.
+You still need to have the directory `.vscode` inside the place you will use VSCode, and make adjustments to `c_cpp_properties.json`, if you are using C++. In addition to that file, VSCode will read the `settings.json`as well.
 
 It may be easier to use a VSCode workspace template, [like this one](https://github.com/athackst/vscode_ros2_workspace), and start the container from VSCode instead of attaching to a running container.
