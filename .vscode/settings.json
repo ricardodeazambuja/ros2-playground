@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "cstdio": "cpp",
+        "qcheckbox": "cpp",
+        "*.repos": "yaml",
+        "*.rviz": "yaml",
+        "*.world": "xml",
+        "*.xacro": "xml"
+    }
+}
