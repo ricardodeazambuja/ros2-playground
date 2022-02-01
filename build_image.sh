@@ -4,7 +4,7 @@ if [[ $# -lt 1 ]] ; then
     echo "Oups, you forgot to choose the arguments!"
     echo "First, is the docker image name (e.g. ricardodeazambuja/ros2-galactic-desktop:latest)."
     echo "Second argument is the ROS2 distro name (default: galactic)."
-    echo "Third argument is used to pass extra args like --no-cache."
+    echo "Third argument is used to pass extra args like --no-cache, but you must pass the 2nd argument to get here :)"
     exit 1
 fi
 
