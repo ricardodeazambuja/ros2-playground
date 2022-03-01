@@ -31,6 +31,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   python3-pip \
   libopencv-dev \
   python3-opencv \
+  python3-scipy \
+  python3-tk \
   iproute2 \
   ros-galactic-plotjuggler-ros \
   && apt-get -qq -y autoclean \

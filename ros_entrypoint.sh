@@ -27,7 +27,7 @@ if [ "$SOURCE_HOST" = "1" ]; then
 
         echo "...and to search for Python packages and add them to PYTHONPATH!"
 
-        # echo "for i in \$(find /home/ros2user/host/src); do test \$(basename \"\$i\") = \"__init__.py\" && PYTHONPATH=\$PYTHONPATH:\$(cd \$(dirname \"\$i\"); cd ..; pwd); done" >> /home/ros2user/.bashrc
+        # It will add to PYTHONPATH all packages found under /home/ros2user/host/src
         echo "for i in \$(find /home/ros2user/host/src -name \"__init__.py\"); do PYTHONPATH=\$PYTHONPATH:\$(cd \$(dirname \"\$i\"); cd ..; pwd); done" >> /home/ros2user/.bashrc
         echo "export PYTHONPATH" >> /home/ros2user/.bashrc
         # Above we will go through the dir /home/ros2user/host/ and search for python packages to add them to PYTHONPATH    
