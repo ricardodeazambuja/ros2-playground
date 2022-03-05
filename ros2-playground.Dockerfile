@@ -31,7 +31,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   python3-pip \
   libopencv-dev \
   python3-opencv \
-  python3-scipy \
   python3-tk \
   iproute2 \
   ros-galactic-plotjuggler-ros \
@@ -49,6 +48,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN python3 -m pip install --upgrade pip
 # Solve the problem where pip complains about package versions...
+
+# Remove old stuff
+RUN pip uninstall --yes numpy && \
+    pip uninstall --yes scipy && \
+    pip install numpy && \
+    pip install scipy
 
 RUN echo "shopt -s histappend" >> /home/ros2user/.bashrc
 RUN echo "PROMPT_COMMAND='history -a;history -n'" >> /home/ros2user/.bashrc
