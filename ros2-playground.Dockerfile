@@ -19,7 +19,7 @@ RUN usermod -aG sudo ros2user
 RUN echo "ros2user    ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers 
 # Use sudo without a password
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
   bash-completion \
   vim \
   sudo \
@@ -33,7 +33,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   python3-opencv \
   python3-tk \
   iproute2 \
+  ros-galactic-gazebo-ros-pkgs \
+  ros-galactic-joint-state-publisher \
+  ros-galactic-xacro \
   ros-galactic-plotjuggler-ros \
+  ros-galactic-navigation2 \
+  ros-galactic-nav2-bringup \
   && apt-get -qq -y autoclean \
   && apt-get -qq -y autoremove \
   && apt-get -qq -y clean \
