@@ -39,6 +39,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-reco
   ros-galactic-plotjuggler-ros \
   ros-galactic-navigation2 \
   ros-galactic-nav2-bringup \
+  ros-galactic-robot-localization \
   && apt-get -qq -y autoclean \
   && apt-get -qq -y autoremove \
   && apt-get -qq -y clean \
