@@ -13,7 +13,7 @@ Launch a new docker ROS2 container.
     -i,  --image           docker image to use (default: ricardodeazambuja/ros2-galactic-desktop:latest)
     -n,  --name            container's name and hostname (default: ros2-<random 10 chars>)
     -l,  --local           sets it to use --network=host
-    -v,  --video           device number you want to access from the host (default: 0)
+    -v,  --video           device number you want to access from the host (default: None)
     -na, --no_net-admin    disable the use of --cap-add=NET_ADMIN
     -nn, --no-nvidia       disable the use of NVIDIA Docker stuff
     -dr, --hard-dri        direct access to hardware (useful for Intel Graphics) --device=/dev/dri:/dev/dri
@@ -30,7 +30,7 @@ IMAGE=ricardodeazambuja/ros2-galactic-desktop:latest
 NAME=ros2-$(echo $RANDOM | md5sum | head -c 10)
 CMD=bash
 NET="--hostname=$NAME"
-VIDEO=0
+VIDEO=
 CAP="--cap-add=NET_ADMIN"
 NGPU="--gpus all --env=NVIDIA_VISIBLE_DEVICES=all --env=NVIDIA_DRIVER_CAPABILITIES=all"
 DRI=
@@ -112,7 +112,7 @@ while :; do
         ;;
         -v|--video)
             if [ "$2" ]; then
-                VIDEO=$2
+                VIDEO=--device=/dev/video$2:/dev/video0
                 shift
             else
                 echo "ERROR: $1 requires a non-empty option argument."
@@ -169,7 +169,7 @@ docker run --rm -it $NET $CAP $NGPU $DRI $GDB $LTIME $LHO $EXT_ENV $SOURCE_HOST\
              --user $(id -u):$(id -g) \
              --volume $HOST_DIR:/home/ros2user/host \
              --group-add video --group-add sudo \
-             --device=/dev/video$VIDEO:/dev/video0 \
+             $VIDEO \
              --env=DISPLAY=$DISPLAY \
              --env=QT_X11_NO_MITSHM=1 \
              --volume /tmp/.X11-unix:/tmp/.X11-unix \
